@@ -13,7 +13,7 @@ public class CreateConection {
     String hostname, port, database, username, password;
 
     public CreateConection() {
-        String path = "C:\\Users\\tequi\\OneDrive\\Documentos\\NetBeansProjects\\Speedrun2\\src\\conexion\\dbproduccion.properties";
+        String path = "C:\\Users\\tequi\\OneDrive\\Documentos\\NetBeansProjects\\ProyectoMundial\\src\\conexion\\db_properties.properties";
         try {
             config.load(Files.newInputStream(Paths.get(path)));
         } catch (IOException ex) {
