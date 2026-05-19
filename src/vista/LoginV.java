@@ -5,15 +5,12 @@
 package vista;
 
 import controlador.LoginController;
-import modelo.modelLog;
 import dao.LoginDAO;
+
 public class LoginV extends javax.swing.JFrame {
     private final LoginController controlador = new LoginController();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginV.class.getName());
 
-    /**
-     * Creates new form LoginV
-     */
     public LoginV() {
         initComponents();
     }
@@ -29,7 +26,7 @@ public class LoginV extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         btnLogin = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnCreate = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtUser = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -41,8 +38,9 @@ public class LoginV extends javax.swing.JFrame {
         btnLogin.setText("INGRESAR");
         btnLogin.addActionListener(this::btnLoginActionPerformed);
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setText("CREAR CUENTA");
+        btnCreate.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnCreate.setText("CREAR CUENTA");
+        btnCreate.addActionListener(this::btnCreateActionPerformed);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Usuario:");
@@ -64,7 +62,7 @@ public class LoginV extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(95, 95, 95)
-                        .addComponent(jButton2))
+                        .addComponent(btnCreate))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -88,7 +86,7 @@ public class LoginV extends javax.swing.JFrame {
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(61, 61, 61))
         );
@@ -110,13 +108,25 @@ public class LoginV extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        controlador.validarInfo(txtUser.getText(), String.valueOf(txtPassword.getPassword()));
+        boolean acces = controlador.validarInfo(txtUser.getText(), String.valueOf(txtPassword.getPassword()));
+        
+        if (acces){
+            new menuCliente().setVisible(true);
+            this.dispose();
+        }else{
+            txtUser.setText("");
+            txtPassword.setText("");
+        }
         
     }//GEN-LAST:event_btnLoginActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        new CreateUser().setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_btnCreateActionPerformed
+
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -140,8 +150,8 @@ public class LoginV extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnLogin;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

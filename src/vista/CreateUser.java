@@ -88,6 +88,7 @@ public class CreateUser extends javax.swing.JFrame {
         jButton1.setText("Ya tengo cuenta");
         jButton1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
         btnSave.setBackground(new java.awt.Color(60, 172, 59));
         btnSave.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -199,6 +200,11 @@ public class CreateUser extends javax.swing.JFrame {
         controlador.nuevoUsuario(txtUser.getText(), 
                 String.valueOf(txtPassword.getPassword()), txtName.getText(), txtLastname.getText(), txtEmail.getText(),txtTelefono.getText(),"USUARIO", true);
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new LoginV().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

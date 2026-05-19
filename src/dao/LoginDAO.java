@@ -10,18 +10,23 @@ import javax.swing.JOptionPane;
 import modelo.modelLogin;
 import modelo.modelLog;
 import vista.CreateUser;
+import controlador.LoginController;
+import java.util.List;
+import java.util.ArrayList;
+import org.mindrot.jbcrypt.BCrypt;
 public class LoginDAO {
     private final CreateConection connFac = new CreateConection();
     
     
     
     public boolean guardarUsuario(modelLogin user){
+        String Spassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         String sql = "INSERT INTO public.usuario(username, password, name, lastname, email, telefono, rol, estado) VALUES(?,?,?,?,?,?,?,?)";
         try {
             Connection con = connFac.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, user.getUsername());
-            ps.setString(2, user.getPassword());
+            ps.setString(2, Spassword);
             ps.setString(3, user.getName());
             ps.setString(4, user.getLastname());
             ps.setString(5, user.getEmail());
@@ -40,31 +45,35 @@ public class LoginDAO {
     }
     
     public boolean ValidarUser(modelLog user){
-        String sql = "SELECT FROM public.usuario WHERE public.usuario.username = (?) and public.usuario.password = (?)";
+        String sql = "SELECT * FROM public.usuario WHERE public.usuario.username = (?)";
         try {
             
             Connection con = connFac.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
             ps.setString(1, user.getUsername());
-            ps.setString(2, user.getPassword());
-            ps.executeUpdate();
+
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                String PasswordDB = rs.getString("password");
+                if (BCrypt.checkpw(user.getPassword(), PasswordDB)){//esta onda compara lo que se escribio con la db (osea todo el if)
+                    ps.close();
+                    con.close();
+                }
+            return true;
+            }else{
+                JOptionPane.showMessageDialog(null, "El Usuario/Contraseña es incorrecto.");
+           
+            }
             ps.close();
             con.close();
             
-            if(rs.next()){
-                JOptionPane.showMessageDialog(null, "Ingreso Exitoso");
-                
-            }else{
-                JOptionPane.showMessageDialog(null, "El Usuario/Contraseña es incorrecto.");
-                
-            }
             
-            
-            return true;
         } catch (SQLException ex) {
             System.getLogger(LoginDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
         return false;
     }
+    
+    
 }
